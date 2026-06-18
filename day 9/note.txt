@@ -1,0 +1,308 @@
+In Java, the extends keyword is used to establish inheritance between two classes, allowing a child class to acquire the fields and methods of a parent class. 
+
+This mechanism models an "IS-A" relationship (e.g., a Car is a Vehicle) and prevents code duplication.
+
+Core Terminology
+
+1.Superclass (Parent / Base Class): The existing class being inherited from.
+
+2.Subclass (Child / Derived Class): The new class that inherits the members.Code Example: How It WorksHere is a straightforward example based on standard object-oriented relationships:java// Parent Class (Superclass)
+
+class Vehicle {
+    protected String brand = "Ford"; // Accessible by subclasses
+
+    public void honk() {
+        System.out.println("Tuut, tuut!");
+    }
+}
+
+// Child Class (Subclass) inheriting from Vehicle
+class Car extends Vehicle {
+    private String modelName = "Mustang";
+
+    public static void main(String[] args) {
+        // Create a Car object
+        Car myCar = new Car();
+
+        // Call the inherited honk() method
+        myCar.honk();
+
+        // Access the inherited brand attribute and own attribute
+        System.out.println(myCar.brand + " " + myCar.modelName);
+    }
+}
+
+Use code with caution.
+Key Rules of the extends KeywordSingle Inheritance Only: A class can only extend one superclass directly. Java does not support class Car extends Vehicle, Machine to prevent structural ambiguity.Access Control: A subclass inherits all public and protected fields and methods. It cannot directly access private members of the parent class.
+
+Method Overriding: A subclass can redefine an inherited method to provide a specialized implementation using the same method name and signature.
+
+The super Keyword: Subclasses can use super.methodName() to invoke the parent class's version of a method, or super() to call the parent's constructor.
+
+No Cycles Allowed: Cyclic inheritance (e.g., Class A extends B while Class B extends A) causes a compile-time error.
+
+Extends vs. Implements
+To avoid confusion, keep the distinct purposes of Java's two relationship keywords in mind:FeatureextendsimplementsTargetUsed to inherit from another class (or an interface extending another interface).
+Used by a class to adopt an interface.
+
+Relationship Establishes a strict IS-A inheritance lineage.
+
+Establishes a functional contract or capability.
+Quantity Limited to one class declaration.
+A single class can implement multiple interfaces.
+You can explore deeper architecture paradigms within the official Oracle Java Documentation on Inheritance.If you would like to expand on this, let me know:
+Would you like to see how constructor chaining works with super()?
+Do you need an example of method overriding and runtime polymorphism?Should we look at how to achieve multiple inheritance using interfaces?
+
+**************************************************************************************************************************
+
+
+In Java, super() must be the very first execution statement in a subclass constructor if you choose to include it.
+
+
+ This ensures the parent class initializes its state completely before the child class starts its own setup.
+ 
+ 1. Mandatory Explicit Call
+ If a parent class does not have a no-argument constructor (because it only defines parameterized constructors), the child class must explicitly call super(arguments). Failing to do this results in a compile-time error.javaclass Parent {
+    Parent(String name) { // No default constructor available
+    }
+}
+
+class Child extends Parent {
+    Child() {
+        super("John"); // Compulsory explicit call
+    }
+}
+Use code with caution.
+
+2. Implicit Execution
+If your parent class has a default or no-argument constructor, Java automatically inserts super() as the first hidden line of your subclass constructor if you omit it. You do not have to type it manually.
+
+
+3. Exclusivity Rule
+A constructor can contain either super() or this(), but never both. Using this() routes object creation to another overloaded constructor in the same class, which eventually handles the super() execution chain.
+
+4. Argument Constraints
+You cannot pass instance variables or call instance methods as arguments inside the super(...) call. This is because the object's parent instance does not legally exist yet. You can, however, pass constants, static variables, or static method results.(Note: If you are using modern Java environments like Java 22 or later, the language allows specific validation or preparation code before super(), provided it does not reference the uninitialized instance this).Would you like to see how constructor chaining behaves across multiple levels of inheritance, or look at a specific compiler error you are trying to resolve?
+
+
+
+**************************************************************************************************************************
+
+Favoring Composition Over Inheritance In Java With Examples
+Last Updated : 17 Mar, 2025
+In object-oriented programming (OOP), choosing between inheritance and composition is crucial for designing flexible and maintainable code. This article explores why you should favor composition over inheritance, with simple explanations and examples.
+
+What is Inheritance?
+Inheritance is when a new class is based on an existing class. The new class (subclass) inherits properties and methods from the existing class (superclass). This relationship is known as "is-a." For example, an Employee "is a" Person because it inherits from the Person class.
+
+Example:
+
+
+
+
+    // Private field for encapsulation
+
+class Person {
+    // Private fields for encapsulation
+    private String name;
+    private int age;
+​
+    // Constructor to initialize fields
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+​
+    // Getter for name
+    public String getName() {
+        return name;
+    }
+​
+    // Setter for name
+    public void setName(String name) {
+        this.name = name;
+    }
+​
+    // Getter for age
+    public int getAge() {
+        return age;
+    }
+​
+    // Setter for age
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+​
+class Employee extends Person {
+    // Private field for encapsulation
+    private int salary;
+​
+    // Constructor to initialize fields
+    public Employee(String name, int age, int salary) {
+        super(name, age); // Call superclass constructor
+        this.salary = salary;
+    }
+​
+    // Getter for salary
+    public int getSalary() {
+        return salary;
+    }
+​
+    // Setter for salary
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+​
+    // Method to display employee information
+    public void displayInfo() {
+        System.out.println("Name: " + getName()); 
+        System.out.println("Age: " + getAge()); 
+        System.out.println("Salary: " + salary);  
+    }
+}
+​
+public class Main {
+    public static void main(String[] args) {
+        // Create an Employee object
+        Employee emp = new Employee("Geek1", 30, 50000);
+​
+        // Display employee information
+        emp.displayInfo();
+    }
+}
+
+Output
+Name: Geek1
+Age: 30
+Salary: 50000
+In this example, the Employee class inherits from Person and adds a new property, salary.
+
+What is Composition?
+Composition involves creating classes that include instances of other classes. This is known as a "has-a" relationship. For example, a Person "has an" Address because it contains an Address object.
+
+Example:
+
+
+
+
+class Address {
+    // Private fields for encapsulation
+    private String street;
+    private String city;
+    private String zipCode;
+
+class Address {
+    // Private fields for encapsulation
+    private String street;
+    private String city;
+    private String zipCode;
+​
+    // Constructor to initialize fields
+    public Address(String street, String city, String zipCode) {
+        this.street = street;
+        this.city = city;
+        this.zipCode = zipCode;
+    }
+​
+    // Getter for street
+    public String getStreet() {
+        return street;
+    }
+​
+    // Setter for street
+    public void setStreet(String street) {
+        this.street = street;
+    }
+​
+    // Getter for city
+    public String getCity() {
+        return city;
+    }
+​
+    // Setter for city
+    public void setCity(String city) {
+        this.city = city;
+    }
+​
+    // Getter for zipCode
+    public String getZipCode() {
+        return zipCode;
+    }
+​
+    // Setter for zipCode
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+​
+    // Method to display address (delegation)
+    public void displayAddress() {
+        System.out.println(street + ", " + city + ", " + zipCode);
+    }
+}
+​
+class Person {
+    // Private fields for encapsulation
+    private String name;
+    private Address address;
+​
+    // Constructor to initialize fields
+    public Person(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+​
+    // Getter for name
+    public String getName() {
+        return name;
+    }
+​
+    // Setter for name
+    public void setName(String name) {
+        this.name = name;
+    }
+​
+    // Getter for address
+    public Address getAddress() {
+        return address;
+    }
+​
+    // Setter for address
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+​
+    // Method to display person information
+    public void displayInfo() {
+        System.out.println("Name: " + name);
+        System.out.print("Address: ");
+        address.displayAddress(); 
+    }
+}
+​
+public class Main {
+    public static void main(String[] args) {
+        // Create an Address object
+        Address addr = new Address("123 Main St", "Springfield", "12345");
+​
+        // Create a Person object
+        Person person = new Person("Geek1", addr);
+​
+        // Display person information
+        person.displayInfo();
+    }
+}
+
+Output
+Name: Geek1
+Address: 123 Main St, Springfield, 12345
+In this example, the Person class uses composition to include an Address object. This creates a "has-a" relationship between Person and Address.
+
+Why Favor Composition Over Inheritance?
+Flexibility: With composition, you can easily change or replace components (like Address) without affecting the Person class.
+Encapsulation: Composition keeps the details of the composed class (like Address) hidden from the outside, making your code more secure and easier to manage.
+Avoid Fragile Base Class Problem: Changes in a superclass can break subclasses. Composition reduces this risk because changes in one class do not directly impact others.
+Better Testability: Composition makes it easier to test individual components by substituting mock objects if needed.
+Conclusion
+Favoring composition over inheritance is a best practice in OOP that leads to more flexible, maintainable, and testable code. By using composition, you create "has-a" relationships that are often more adaptable and less prone to problems than "is-a" relationships from inheritance.
