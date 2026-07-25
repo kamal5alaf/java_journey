@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws CloneNotSupportedException {
 
-//  PRACTICE
+//  PRACTICE  name : kamal
 //        ArrayList<String> names = new ArrayList<>(List.of("kamal", "mohamed", "sami", "Ali", "Alaa"));
 //
 //        names.add("Yasser");
