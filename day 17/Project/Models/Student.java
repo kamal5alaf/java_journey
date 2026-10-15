@@ -1,47 +1,76 @@
+package Models;
+
+import CustomException.CourseNotFoundException;
+import CustomException.DuplicateIdException;
+import GradeCalculator.GradeCalculator;
+
 import java.util.ArrayList;
 
 public class Student {
-    private String name;
-    private int id;
-    private ArrayList<Course> enrolledCourses;
 
-    public Student(String name, int id) {
-        this.name = name;
-        this.id = id++;
+
+    private String name;
+    private String id;
+    private static int idCount = 0;
+    private ArrayList<Course> enrolledCourses = new ArrayList<>();
+
+    public String getName() {
+        return name;
     }
 
-    public void enroll(Course c) {
-        if (c == null) {
-            return;
-        }
+    public String getId() {
+        return id;
+    }
+    public ArrayList<Course> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
+
+    public Student(String name) {
+        idCount++;
+        id = String.valueOf(idCount);
+        this.name = name;
+    }
+
+    public void enroll(Course c) throws CourseNotFoundException, DuplicateIdException {
+        if (c == null)  throw new NullPointerException();
 
         for (Course c1 : enrolledCourses) {
             if (c1.getCourseCode().equalsIgnoreCase(c.getCourseCode())) {
-                System.out.println("Course already enrolled");
+                throw new DuplicateIdException("Models.Course already enrolled");
             }
         }
-
         enrolledCourses.add(c);
     }
 
-    void recordGrade(String courseCode_, Grade g) {
+    public void recordGrade(String courseCode_, Grade g) throws CourseNotFoundException {
         for (Course c : enrolledCourses) {
-            String code  = c.getCourseCode();
+            String code = c.getCourseCode();
             if (code.equalsIgnoreCase(courseCode_)) c.addGrade(g);
             return;
         }
-        System.out.println("Course code not found");
+        throw new CourseNotFoundException("Models.Course code not found");
     }
 
-    void getGBA(){
+    public double getGBA() {
+        double xx = GradeCalculator.calculateGPA(enrolledCourses);
 
-        GradeCalculator.gpa(enrolledCourses);
+        return xx;
+    }
 
-    };
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Student)) {
+            return false;
+        }
 
+        Student s = (Student) obj;
+        return s.id == this.id;
+    }
 
     @Override
     public String toString() {
-        return  "Student [name=" + name + ", id=" + id + "]";
+        return "Models.Student [name=" + name + ", id=" + id + "]";
     }
+
 }

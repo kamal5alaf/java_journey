@@ -1,20 +1,9 @@
+package Models;
+
 public class Grade {
 
     private String examName;
     private double score;
-
-    public void setExamName(String examName) {
-        this.examName = examName;
-    }
-    public void setScore(double score) {
-        this.score = score;
-    }
-    public String getExamName() {
-        return examName;
-    }
-    public double getScore() {
-        return score;
-    }
 
     public Grade(String examName, double score) {
         this.examName = examName;
@@ -24,9 +13,19 @@ public class Grade {
         this.score = score;
     }
 
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+
     @Override
     public String toString() {
-        return "Grade{" +
+        return "Models.Grade{" +
                 "examName='" + examName + '\'' +
                 ", score=" + score +
                 '}';

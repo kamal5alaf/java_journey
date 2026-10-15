@@ -1,4 +1,7 @@
 package CustomException;
 
-public class DuplicateIdException {
+public class DuplicateIdException extends RuntimeException {
+    public DuplicateIdException(String massage) {
+        super(massage);
+    }
 }

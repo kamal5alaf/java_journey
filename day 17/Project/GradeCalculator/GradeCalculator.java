@@ -1,6 +1,16 @@
+package GradeCalculator;
+
+import Models.Course;
+import Models.Grade;
+import com.sun.tools.javac.Main;
+
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class GradeCalculator {
+
+
     public static double average(ArrayList<Grade> grades) {
         if (grades.isEmpty()) return 0;
         double total = 0;
@@ -9,6 +19,8 @@ public class GradeCalculator {
             total += grades.get(x).getScore();
         }
         return total / grades.size();
+
+
     }
 
     public static String letterGrade(double Score) {
@@ -28,7 +40,28 @@ public class GradeCalculator {
 
     }
 
+    public static double calculateGPA(ArrayList<Course> enrolledCourses) {
+        if (enrolledCourses == null || enrolledCourses.isEmpty()) throw new NullPointerException("No enrolled courses found");
 
-    public static void gpa(ArrayList<Course> enrolledCourses) {
+        double totalGradePoints = 0;
+        double totalCreditHours = 0;
+
+        for (Course c : enrolledCourses) {
+            String courseCode = c.getLetterGrade(c.getAverageScore());
+
+            double ResultGPA = switch (courseCode) {
+                case "A" -> 4.0;
+                case "B" -> 3.0;
+                case "C" -> 2.0;
+                case "D" -> 1.0;
+                default -> 0.0;
+            };
+
+            totalCreditHours += c.getCreditHours();
+            totalGradePoints += ResultGPA * c.getCreditHours();
+        }
+
+        return totalCreditHours == 0 ? 0.0 : totalGradePoints / totalCreditHours;
     }
 }
+

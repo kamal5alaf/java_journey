@@ -12,7 +12,7 @@ class Book {
     private int year;
     private boolean isAvailable;
     private static int bookCount;
-    private static final DEFAULT_GENRE = "Fiction" ;
+
 
     public String getTitle() {
         return title;
@@ -20,7 +20,7 @@ class Book {
 
     public void setTitle(Str) {
         if (title != null && !title.equals("")) {
-            this.title = title
+            this.title = title;
         } else {
             throw new IllegalArgumentException();
         }
